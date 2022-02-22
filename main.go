@@ -110,7 +110,7 @@ func main1() int {
 		return errorf("cannot determine main module: %v", err)
 	}
 
-	rcode := cmd.Run(cmd, cmd.Flag.Args())
+	rcode := cmd.Run(cmd, cmd.Flag.Args()...)
 	return max(exitCode, rcode)
 }
 

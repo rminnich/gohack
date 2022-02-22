@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -43,23 +44,26 @@ var (
 	getVCS   = getCommand.Flag.Bool("vcs", false, "get VCS information too")
 )
 
-func runGet(cmd *Command, args []string) int {
-	if err := runGet1(args); err != nil {
+func runGet(cmd *Command, args ...string) int {
+	log.Printf("runget cmd %v args %v", cmd, args)
+	if err := runGet1(args...); err != nil {
 		errorf("%v", err)
 	}
 	return 0
 }
 
-func runGet1(args []string) error {
-	if len(args) == 0 {
-		return errors.Newf("get requires at least one module argument")
-	}
+func runGet1(args ...string) error {
 	var repls []*modReplace
 	mods, err := listModules("all")
 	if err != nil {
 		// TODO this happens when a replacement directory has been removed.
 		// Perhaps we should be more resilient in that case?
 		return errors.Notef(err, nil, "cannot get module info")
+	}
+	if len(args) == 0 {
+		for _, m := range mods {
+			args = append(args, m.Path)
+		}
 	}
 	for _, mpath := range args {
 		m := mods[mpath]

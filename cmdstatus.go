@@ -16,7 +16,7 @@ about only the specified modules.
 `[1:],
 }
 
-func cmdStatus(_ *Command, args []string) int {
+func cmdStatus(_ *Command, args ...string) int {
 	if len(args) > 0 {
 		errorf("explicit module status not yet implemented")
 		return 2

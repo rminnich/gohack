@@ -31,14 +31,14 @@ var (
 	undoForceClean = undoCommand.Flag.Bool("f", false, "force cleaning of modified-but-not-committed repositories. Do not use this flag unless you really need to!")
 )
 
-func cmdUndo(_ *Command, args []string) int {
-	if err := cmdUndo1(args); err != nil {
+func cmdUndo(_ *Command, args ...string) int {
+	if err := cmdUndo1(args...); err != nil {
 		errorf("%v", err)
 	}
 	return 0
 }
 
-func cmdUndo1(modules []string) error {
+func cmdUndo1(modules ...string) error {
 	modMap := make(map[string]bool)
 	if len(modules) > 0 {
 		for _, m := range modules {

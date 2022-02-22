@@ -11,7 +11,7 @@ import (
 type Command struct {
 	// Run runs the command and returns its exit status.
 	// The args are the arguments after the command name.
-	Run func(cmd *Command, args []string) int
+	Run func(cmd *Command, args ...string) int
 
 	// UsageLine is the one-line usage message.
 	// The first word in the line is taken to be the command name.
